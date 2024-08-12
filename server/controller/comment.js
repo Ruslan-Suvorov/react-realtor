@@ -51,7 +51,6 @@ export const createComment = async (req, res) => {
 
 export const getComments = async (req, res) => {
   const { id } = req.params;
-  // console.log(id);
   try {
     const comments = await CommentModel.find({ advertId: id }).sort({
       date: -1,
@@ -78,6 +77,9 @@ export const deleteComment = async (req, res) => {
 export const deleteReply = async (req, res) => {
   const { id } = req.params;
   const commentId = req.body.id;
+
+  console.log(commentId);
+
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ message: "Reply doesn`t exist" });
@@ -88,7 +90,10 @@ export const deleteReply = async (req, res) => {
       { $pull: { replys: { _id: id } } }
     );
 
-    res.status(200).json({ message: "Reply deleted successfully" });
+    const updatedComment = await CommentModel.findOne({ _id: commentId });
+
+    console.log(updatedComment);
+    res.status(200).json(updatedComment);
   } catch (error) {
     res.status(404).json({ message: "Something went wrong" });
   }

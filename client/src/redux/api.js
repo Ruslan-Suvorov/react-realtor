@@ -32,4 +32,4 @@ export const createComment = (comment) => API.post("/create-comment", comment);
 export const getComments = (id) => API.get(`/comments/${id}`);
 export const deleteComment = (id) => API.delete(`/delete-comment/${id}`);
 export const deleteReply = (id, commentId) =>
-  API.patch(`/delete-comment/${id}`, commentId);
+  API.patch(`/delete-reply/${id}`, commentId);

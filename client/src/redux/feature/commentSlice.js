@@ -61,7 +61,18 @@ const commentSlice = createSlice({
       state.error = action.payload.message;
     });
     builder.addCase(createComment.fulfilled, (state, action) => {
-      state.comments = [action.payload, ...state.comments];
+      const {
+        arg: {
+          comment: { commentId },
+        },
+      } = action.meta;
+      if (commentId) {
+        state.comments = state.comments.map((comment) =>
+          comment._id === commentId ? action.payload : comment
+        );
+      } else {
+        state.comments = [action.payload, ...state.comments];
+      }
     });
 
     // ==========================================================
@@ -93,7 +104,16 @@ const commentSlice = createSlice({
       state.error = action.payload.message;
     });
     builder.addCase(deleteReply.fulfilled, (state, action) => {
-      state.comments = [action.payload];
+      const {
+        arg: {
+          commentId: { id },
+        },
+      } = action.meta;
+      if (id) {
+        state.comments = state.comments.map((comment) =>
+          comment._id === id ? action.payload : comment
+        );
+      }
     });
   },
 });

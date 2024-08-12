@@ -157,21 +157,23 @@ const Comment = ({
             </MDBBtn>
           )}
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {userId && (
+            <MDBBtn
+              style={{
+                background: "none",
+                boxShadow: "none",
+                padding: "3px",
+                color: `${isReply ? "#000" : "#bbb"}`,
+                textTransform: "none",
+              }}
+              onClick={handleIsReply}
+            >
+              <MDBIcon fas icon="reply" size="sm" />
+              &nbsp;Reply
+            </MDBBtn>
+          )}
           {userId === creatorId && (
             <>
-              <MDBBtn
-                style={{
-                  background: "none",
-                  boxShadow: "none",
-                  padding: "3px",
-                  color: `${isReply ? "#000" : "#bbb"}`,
-                  textTransform: "none",
-                }}
-                onClick={handleIsReply}
-              >
-                <MDBIcon fas icon="reply" size="sm" />
-                &nbsp;Reply
-              </MDBBtn>
               &nbsp;
               <MDBBtn
                 style={{

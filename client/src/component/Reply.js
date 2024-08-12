@@ -1,9 +1,21 @@
 import { MDBBtn, MDBIcon, MDBInput } from "mdb-react-ui-kit";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { getDate } from "../util/getDate";
+import { deleteReply } from "../redux/feature/commentSlice";
+import { GlobalContext } from "../App";
 
-const Reply = ({ _id, name, creatorId, userImage, text, date, userId }) => {
+const Reply = ({
+  _id,
+  name,
+  commentId,
+  creatorId,
+  userImage,
+  text,
+  date,
+  userId,
+}) => {
+  const { dispatch } = useContext(GlobalContext);
   const [editReplyText, setEditReplyText] = useState(text);
   const [isReplyEdit, setReplyEdit] = useState(false);
 
@@ -14,13 +26,19 @@ const Reply = ({ _id, name, creatorId, userImage, text, date, userId }) => {
   const handleReplyEdit = () => setReplyEdit(!isReplyEdit);
 
   const handleEditReply = () => {};
+
+  const handleDeleteReply = () => {
+    if (window.confirm("Are you shure you want to delete ?")) {
+      dispatch(deleteReply({ id: _id, commentId: { id: commentId } }));
+    }
+  };
   return (
     <div
       style={{
         display: "flex",
         borderTop: "1px solid #bbb",
         padding: "5px",
-        maxWidth: "100%",
+        width: "100%",
       }}
     >
       <img
@@ -33,7 +51,7 @@ const Reply = ({ _id, name, creatorId, userImage, text, date, userId }) => {
           marginRight: "15px",
         }}
       />
-      <div>
+      <div style={{ width: "100%" }}>
         <div style={{ display: "flex", marginTop: "-5px" }}>
           <Link to={`/profile/${creatorId}`}>{name}</Link>{" "}
           <MDBIcon
@@ -89,7 +107,7 @@ const Reply = ({ _id, name, creatorId, userImage, text, date, userId }) => {
                   color: "#bbb",
                   textTransform: "none",
                 }}
-                // onClick={() => handleDeleteComment(_id)}
+                onClick={() => handleDeleteReply(_id)}
               >
                 <MDBIcon far icon="trash-alt" size="sm" />
                 &nbsp;Delete
