@@ -25,6 +25,18 @@ export const getComments = createAsyncThunk(
   }
 );
 
+export const editComment = createAsyncThunk(
+  "comment/editComment",
+  async ({ id, comment }, { rejectWithValue }) => {
+    try {
+      const response = await api.editComment(id, comment);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const deleteComment = createAsyncThunk(
   "comment/deleteComment",
   async ({ id }, { rejectWithValue }) => {
@@ -82,6 +94,30 @@ const commentSlice = createSlice({
     });
     builder.addCase(getComments.fulfilled, (state, action) => {
       state.comments = action.payload;
+    });
+
+    // ==========================================================
+    builder.addCase(editComment.pending, (state, action) => {});
+    builder.addCase(editComment.rejected, (state, action) => {
+      state.error = action.payload.message;
+    });
+    builder.addCase(editComment.fulfilled, (state, action) => {
+      const {
+        arg: {
+          id,
+          comment: { commentId },
+        },
+      } = action.meta;
+      if (commentId) {
+        state.comments = state.comments.map((comment) =>
+          comment._id === commentId ? action.payload : comment
+        );
+      }
+      if (id) {
+        state.comments = state.comments.map((comment) =>
+          comment._id === id ? action.payload : comment
+        );
+      }
     });
 
     // ==========================================================

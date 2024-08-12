@@ -2,7 +2,7 @@ import { MDBBtn, MDBIcon, MDBInput } from "mdb-react-ui-kit";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { getDate } from "../util/getDate";
-import { deleteReply } from "../redux/feature/commentSlice";
+import { deleteReply, editComment } from "../redux/feature/commentSlice";
 import { GlobalContext } from "../App";
 
 const Reply = ({
@@ -25,7 +25,15 @@ const Reply = ({
 
   const handleReplyEdit = () => setReplyEdit(!isReplyEdit);
 
-  const handleEditReply = () => {};
+  const handleEditReply = (e) => {
+    e.preventDefault();
+    const comment = {
+      commentId,
+      text: editReplyText,
+    };
+    dispatch(editComment({ id: _id, comment }));
+    setReplyEdit(false);
+  };
 
   const handleDeleteReply = () => {
     if (window.confirm("Are you shure you want to delete ?")) {
@@ -69,12 +77,17 @@ const Reply = ({
             style={{ width: "100%", margin: "6px 0 10px 0" }}
           >
             <MDBInput
-              label="Edit comment"
+              label="Edit reply"
               name="text"
               value={editReplyText}
               required
               onChange={onEditReplyChange}
               maxLength={300}
+              onBlur={(_) => {
+                setEditReplyText(text);
+                setReplyEdit(false);
+              }}
+              autoFocus
             />
           </form>
         ) : (

@@ -7,17 +7,16 @@ const CommentForm = ({ advertId }) => {
   const { dispatch, user } = useContext(GlobalContext);
   const [text, setText] = useState("");
 
-  const comment = {
-    advertId,
-    creatorId: user?.result?._id,
-    name: `${user?.result?.firstName} ${user?.result?.lastName}`,
-    userImage: user?.result?.userImage,
-    text: text,
-  };
-
   const handleComment = (e) => {
     e.preventDefault();
     if (text) {
+      const comment = {
+        advertId,
+        creatorId: user?.result?._id,
+        name: `${user?.result?.firstName} ${user?.result?.lastName}`,
+        userImage: user?.result?.userImage,
+        text: text,
+      };
       dispatch(createComment({ comment }));
       setText("");
     }

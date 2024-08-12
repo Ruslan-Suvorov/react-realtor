@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import CommentModel from "../model/comment.js";
+import { text } from "express";
 
 export const createComment = async (req, res) => {
   const comment = req.body;
@@ -58,6 +59,51 @@ export const getComments = async (req, res) => {
     res.status(200).json(comments);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const editComment = async (req, res) => {
+  const { id } = req.params;
+  const comment = req.body;
+  if (!comment.commentId) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ message: "Advert doesn`t exist" });
+      }
+
+      const oldComment = await CommentModel.findOne({ _id: id });
+
+      oldComment.text = comment.text;
+
+      const uppatedComment = await CommentModel.findByIdAndUpdate(
+        id,
+        oldComment,
+        { new: true }
+      );
+      res.status(200).json(uppatedComment);
+    } catch (error) {
+      res.status(404).json({ message: "Something went wrong" });
+    }
+  } else {
+    const { commentId } = comment;
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ message: "Advert doesn`t exist" });
+      }
+      const oldComment = await CommentModel.findOne({ _id: commentId });
+
+      const replys = oldComment.replys;
+      const reply = replys.find((reply) => reply._id == id);
+      reply.text = comment.text;
+      const updatedComment = await CommentModel.findByIdAndUpdate(
+        commentId,
+        oldComment,
+        { new: true }
+      );
+      res.status(200).json(updatedComment);
+    } catch (error) {
+      res.status(404).json({ message: "Something went wrong" });
+    }
   }
 };
 

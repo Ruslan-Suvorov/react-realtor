@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { getDate } from "../util/getDate";
 import { MDBBtn, MDBIcon, MDBInput } from "mdb-react-ui-kit";
 import { GlobalContext } from "../App";
-import { createComment, deleteComment } from "../redux/feature/commentSlice";
+import {
+  createComment,
+  deleteComment,
+  editComment,
+} from "../redux/feature/commentSlice";
 import Reply from "../component/Reply";
 
 const Comment = ({
@@ -44,20 +48,24 @@ const Comment = ({
 
   const handleEditComment = (e) => {
     e.preventDefault();
-  };
-
-  const reply = {
-    advertId: parentId,
-    commentId: _id,
-    creatorId: userId,
-    name: `${user?.result?.firstName} ${user?.result?.lastName}`,
-    userImage: user?.result?.userImage,
-    text: replyText,
+    const comment = {
+      text: editText,
+    };
+    dispatch(editComment({ id: _id, comment }));
+    setEdit(false);
   };
 
   const handleReply = (e) => {
     e.preventDefault();
     if (replyText) {
+      const reply = {
+        advertId: parentId,
+        commentId: _id,
+        creatorId: userId,
+        name: `${user?.result?.firstName} ${user?.result?.lastName}`,
+        userImage: user?.result?.userImage,
+        text: replyText,
+      };
       dispatch(createComment({ comment: reply }));
       setReplyText("");
     }
@@ -106,6 +114,11 @@ const Comment = ({
               required
               onChange={onEditChange}
               maxLength={255}
+              onBlur={(_) => {
+                setEditText(text);
+                setEdit(false);
+              }}
+              autoFocus
             />
           </form>
         ) : (
