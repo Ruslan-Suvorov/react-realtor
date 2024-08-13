@@ -15,6 +15,7 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post("/signin", formData);
 export const signUp = (formData) => API.post("/signup", formData);
 export const googleSignIn = (result) => API.post("/google-signin", result);
+export const getProfile = (id) => API.get(`/profile/${id}`);
 
 // advert API =======================================
 export const createAdvert = (result) => API.post("/create-advert", result);

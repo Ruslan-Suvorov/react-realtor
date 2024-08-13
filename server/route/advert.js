@@ -19,8 +19,6 @@ router.patch("/edit-advert/:id", auth, editAdvert);
 router.delete("/delete-advert/:id", auth, deleteAdvert);
 router.get("/advert/:id", getAdvert);
 router.patch("/like/:id", auth, likeAdvert);
-// router.patch("/create-comment", createComment);
-// router.patch("/delete-comment/:id", deleteComment);
 
 router.get("/adverts", getAdverts);
 router.get("/dashboard/:id", auth, getAdvertsByUser);

@@ -9,6 +9,7 @@ import "./App.css";
 import Home from "./page/Home";
 import Signup from "./page/Signup";
 import Signin from "./page/Signin";
+import Profile from "./component/Profile";
 import AdvertForm from "./page/AdvertForm";
 import Header from "./component/Header";
 import Advert from "./page/Advert";
@@ -38,6 +39,15 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route
+                path="/my-profile/"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/create-advert"
                 element={

@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import mongoose from "mongoose";
 import UserModel from "../model/user.js";
+import AdvertModel from "../model/advert.js";
 
 export const secret = "test";
 
@@ -97,6 +98,30 @@ export const googleSignIn = async (req, res) => {
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: error });
+    console.log(error);
+  }
+};
+
+export const getProfile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).json({ message: "User doesn`t exist" });
+    }
+
+    const user = await UserModel.findOne({ _id: id }, "-password -googleId");
+    const adverts = await AdvertModel.find(
+      { creatorId: id },
+      "-description -price -imageFile -creatorId -creatorFirstName -creatorLastName -createdAt -likes -tags"
+    );
+    const profile = {
+      ...user._doc,
+      adverts,
+    };
+    res.status(200).json(profile);
+  } catch (error) {
+    res.status(404).json({ message: error });
     console.log(error);
   }
 };

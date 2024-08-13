@@ -43,12 +43,25 @@ export const googleSignIn = createAsyncThunk(
   }
 );
 
+export const getProfile = createAsyncThunk(
+  "auth/getProfile",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.getProfile(id);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
     loading: false,
     error: "",
+    profile: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -72,6 +85,8 @@ const authSlice = createSlice({
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
     });
+
+    // ==================================================
     builder.addCase(signup.pending, (state, action) => {
       state.loading = true;
     });
@@ -84,6 +99,8 @@ const authSlice = createSlice({
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
     });
+
+    // ==================================================
     builder.addCase(googleSignIn.pending, (state, action) => {
       state.loading = true;
     });
@@ -95,6 +112,19 @@ const authSlice = createSlice({
       state.loading = false;
       localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
       state.user = action.payload;
+    });
+
+    // ==================================================
+    builder.addCase(getProfile.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+    builder.addCase(getProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload;
     });
   },
 });

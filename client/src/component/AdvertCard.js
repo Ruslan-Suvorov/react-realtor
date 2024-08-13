@@ -64,7 +64,9 @@ const AdvertCard = ({
         </MDBCardBody>
         <MDBCardFooter>
           <div className="text-end">
-            {creatorFirstName} {creatorLastName}
+            <Link to={`/profile/${creatorId}`}>
+              {creatorFirstName} {creatorLastName}
+            </Link>
           </div>
           <div className="text-end" style={{ color: "#aaa" }}>
             {getDate(createdAt)}

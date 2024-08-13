@@ -22,7 +22,7 @@ const Image = ({ src, style = {}, className = "", alt = "" }) => {
     //   className={className}
     // ></div>
 
-    // variant 3
+    // variant 3 - bed for vertical image
     // <div
     //   style={{
     //     ...style,

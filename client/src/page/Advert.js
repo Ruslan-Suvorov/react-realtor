@@ -4,7 +4,6 @@ import {
   MDBCardBody,
   MDBCardTitle,
   MDBCardText,
-  MDBCardImage,
   MDBIcon,
 } from "mdb-react-ui-kit";
 
@@ -12,7 +11,7 @@ import { GlobalContext } from "../App";
 import { useSelector } from "react-redux";
 import { getAdvert, setTag } from "../redux/feature/advertSlice";
 import { getComments } from "../redux/feature/commentSlice";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getDate } from "../util/getDate";
 import Loading from "../component/Loading";
 import Tag from "../component/Tag";
@@ -70,8 +69,10 @@ const Advert = () => {
             <div className="row">
               <div className="text-start col-6">
                 <p style={{ fontWeight: "500", fontSize: "20px" }}>
-                  Created by {advert?.creatorFirstName}{" "}
-                  {advert?.creatorLastName}
+                  Created by{" "}
+                  <Link to={`/profile/${advert?.creatorId}`}>
+                    {advert?.creatorFirstName} {advert?.creatorLastName}
+                  </Link>
                 </p>
               </div>
               <div className="text-end col-6" style={{ color: "#aaa" }}>
