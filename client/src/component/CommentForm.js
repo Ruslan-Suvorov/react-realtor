@@ -2,6 +2,7 @@ import { MDBInput } from "mdb-react-ui-kit";
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../App";
 import { createComment } from "../redux/feature/commentSlice";
+import Image from "../component/Image";
 
 const CommentForm = ({ advertId }) => {
   const { dispatch, user } = useContext(GlobalContext);
@@ -33,8 +34,8 @@ const CommentForm = ({ advertId }) => {
         padding: "5px",
       }}
     >
-      <img
-        src={user?.result?.userImage}
+      <Image
+        src={user.result.userImage || "img/defaultUserImage.jpg"}
         alt={`${user?.result?.firstName} ${user?.result?.lastName}`}
         style={{
           height: "50px",

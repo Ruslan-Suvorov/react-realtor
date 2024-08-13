@@ -9,6 +9,7 @@ import {
   editComment,
 } from "../redux/feature/commentSlice";
 import Reply from "../component/Reply";
+import Image from "../component/Image";
 
 const Comment = ({
   _id,
@@ -80,8 +81,8 @@ const Comment = ({
         width: "100%",
       }}
     >
-      <img
-        src={userImage}
+      <Image
+        src={userImage || "img/defaultUserImage.jpg"}
         alt={name}
         style={{
           height: "50px",
@@ -227,8 +228,8 @@ const Comment = ({
                 width: "100%",
               }}
             >
-              <img
-                src={user?.result?.userImage}
+              <Image
+                src={user.result.userImage || "img/defaultUserImage.jpg"}
                 alt={`${user?.result?.firstName} ${user?.result?.lastName}`}
                 style={{
                   height: "50px",

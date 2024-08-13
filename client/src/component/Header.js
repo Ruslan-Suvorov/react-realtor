@@ -14,6 +14,8 @@ import { setSignout } from "../redux/feature/authSlice";
 import { GlobalContext } from "../App";
 import { jwtDecode } from "jwt-decode";
 import { googleLogout } from "@react-oauth/google";
+import { Link } from "react-router-dom";
+import Image from "../component/Image";
 
 const Header = () => {
   const [showBasic, setShowBasic] = useState(false);
@@ -52,6 +54,7 @@ const Header = () => {
             }}
           >
             <img
+              alt="&#8962;"
               src={"logo512.png"}
               style={{
                 height: "50px",
@@ -79,16 +82,25 @@ const Header = () => {
                     margin: "-3px 50px -7px 0",
                   }}
                 >
-                  <img
-                    src={user.result.userImage || "img/defaultUserImage.jpg"}
+                  <Link
+                    to="/my-profile"
                     style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "25px",
-                      marginRight: "20px",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
                     }}
-                  />
-                  {user.result.firstName} {user.result.lastName}
+                  >
+                    <Image
+                      src={user.result.userImage || "img/defaultUserImage.jpg"}
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "25px",
+                        marginRight: "20px",
+                      }}
+                    />
+                    {user.result.firstName} {user.result.lastName}
+                  </Link>
                 </h5>
               )}
               {user?.result?._id && (

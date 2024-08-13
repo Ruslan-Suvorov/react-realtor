@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getDate } from "../util/getDate";
 import { deleteReply, editComment } from "../redux/feature/commentSlice";
 import { GlobalContext } from "../App";
+import Image from "../component/Image";
 
 const Reply = ({
   _id,
@@ -49,8 +50,8 @@ const Reply = ({
         width: "100%",
       }}
     >
-      <img
-        src={userImage}
+      <Image
+        src={userImage || "img/defaultUserImage.jpg"}
         alt={name}
         style={{
           height: "50px",

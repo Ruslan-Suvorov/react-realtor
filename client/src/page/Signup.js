@@ -12,11 +12,11 @@ import {
   MDBIcon,
   MDBSpinner,
   MDBValidationItem,
-  MDBCardImage,
 } from "mdb-react-ui-kit";
 import { signup } from "../redux/feature/authSlice";
 import { GlobalContext } from "../App";
 import FileBase from "react-file-base64";
+import Image from "../component/Image";
 
 const initialState = {
   firstName: "",
@@ -168,7 +168,7 @@ const Signup = () => {
                     width: "100px",
                   }}
                 >
-                  <MDBCardImage
+                  <Image
                     src={userImage}
                     style={{
                       height: "100px",

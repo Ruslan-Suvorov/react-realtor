@@ -8,18 +8,18 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 
+import { GlobalContext } from "../App";
 import { useSelector } from "react-redux";
-import { getAdvert } from "../redux/feature/advertSlice";
-import { setTag } from "../redux/feature/advertSlice";
+import { getAdvert, setTag } from "../redux/feature/advertSlice";
+import { getComments } from "../redux/feature/commentSlice";
 import { useParams } from "react-router-dom";
 import { getDate } from "../util/getDate";
 import Loading from "../component/Loading";
 import Tag from "../component/Tag";
 //import Likes from "../component/Likes";
-import { GlobalContext } from "../App";
 import CommentForm from "../component/CommentForm";
 import Comment from "../component/Comment";
-import { getComments } from "../redux/feature/commentSlice";
+import Image from "../component/Image";
 
 const Advert = () => {
   const { dispatch, user } = useContext(GlobalContext);
@@ -47,11 +47,14 @@ const Advert = () => {
         <Loading />
       ) : (
         <>
-          <MDBCardImage
+          <Image
             src={advert?.imageFile}
-            position="top"
-            style={{ maxWidth: "100%", maxHeight: "400px" }}
-            fluid
+            alt={advert?.title}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "450px",
+              borderRadius: "10px 10px 0 0",
+            }}
           />
           <MDBCardBody>
             <MDBCardTitle>{advert?.title}</MDBCardTitle>

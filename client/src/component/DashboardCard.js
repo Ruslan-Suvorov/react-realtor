@@ -5,7 +5,6 @@ import {
   MDBCardBody,
   MDBCardTitle,
   MDBCardText,
-  MDBCardImage,
   MDBIcon,
   MDBBtn,
 } from "mdb-react-ui-kit";
@@ -14,6 +13,7 @@ import { excerpt } from "../util/excerpt";
 import { deleteAdvert } from "../redux/feature/advertSlice";
 import { toast } from "react-toastify";
 import { GlobalContext } from "../App";
+import Image from "../component/Image";
 
 const DashboardCard = ({
   _id,
@@ -38,7 +38,7 @@ const DashboardCard = ({
         margin: "20px",
       }}
     >
-      <MDBCardImage
+      <Image
         src={imageFile}
         alt={title}
         style={{
@@ -46,7 +46,6 @@ const DashboardCard = ({
           height: "175px",
           borderRadius: "10px 0 0 10px",
         }}
-        fluid
       />
       <MDBCardBody style={{ margin: "-15px 0" }}>
         <MDBCardTitle className="text-start">{title}</MDBCardTitle>
