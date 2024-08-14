@@ -55,6 +55,18 @@ export const getProfile = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "aueth/updateUser",
+  async ({ id, userData }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateUser(id, userData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -125,6 +137,21 @@ const authSlice = createSlice({
     builder.addCase(getProfile.fulfilled, (state, action) => {
       state.loading = false;
       state.profile = action.payload;
+    });
+
+    // ==================================================
+    builder.addCase(updateUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.loading = false;
+      localStorage.setItem("profile", JSON.stringify({ ...action.payload }));
+      state.user = action.payload;
+      state.profile = { ...state.profile, ...action.payload.result };
     });
   },
 });

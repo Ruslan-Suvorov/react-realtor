@@ -6,14 +6,15 @@ import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+
+import Advert from "./page/Advert";
+import Dashboard from "./page/Dashboard";
 import Home from "./page/Home";
 import Signup from "./page/Signup";
 import Signin from "./page/Signin";
-import Profile from "./component/Profile";
+import Profile from "./page/Profile";
 import AdvertForm from "./page/AdvertForm";
 import Header from "./component/Header";
-import Advert from "./page/Advert";
-import Dashboard from "./page/Dashboard";
 import PrivateRoute from "./container/PrivateRoute";
 import NotFound from "./container/NotFound";
 //import logo from "./logo.svg";

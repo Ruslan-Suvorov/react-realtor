@@ -18,7 +18,7 @@ export const signin = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Password is not correct" }); //invalid credentials
+      return res.status(400).json({ message: "Password is not correct" });
     }
 
     const token = jwt.sign({ email: user.email, id: user._id }, secret, {
@@ -104,6 +104,9 @@ export const googleSignIn = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   const { id } = req.params;
+  if (!id) {
+    res.status(404).json({ message: "ID is not defined" });
+  }
 
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -123,5 +126,30 @@ export const getProfile = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error });
     console.log(error);
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const userData = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).json({ message: "User doesn`t exist" });
+    }
+
+    let result = await UserModel.findOne({ _id: id });
+
+    for (let key in userData) {
+      result[key] = userData[key];
+    }
+    const token = jwt.sign({ email: result.email, id: result._id }, secret, {
+      expiresIn: "12h",
+    });
+    console.log(result);
+
+    await UserModel.findOneAndUpdate({ _id: id }, { $set: { ...userData } });
+    res.status(200).json({ result, token });
+  } catch (error) {
+    res.status(404).json({ message: "Something went wrong" });
   }
 };
