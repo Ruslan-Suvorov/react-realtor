@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:4000" });
+const API = axios.create({
+  baseURL: "http://localhost:4000", // dev
+});
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
@@ -12,28 +14,33 @@ API.interceptors.request.use((req) => {
 });
 
 // user API =========================================
-export const signIn = (formData) => API.post("/signin", formData);
-export const signUp = (formData) => API.post("/signup", formData);
-export const googleSignIn = (result) => API.post("/google-signin", result);
-export const getProfile = (id) => API.get(`/profile/${id}`);
-export const updateUser = (id, user) => API.patch(`/update-user/${id}`, user);
+export const signIn = (formData) => API.post("/auth/signin", formData);
+export const signUp = (formData) => API.post("/auth/signup", formData);
+export const googleSignIn = (result) => API.post("/auth/google-signin", result);
+export const getProfile = (id) => API.get(`/auth/profile/${id}`);
+export const updateUser = (id, user) =>
+  API.patch(`/auth/update-user/${id}`, user);
 
 // advert API =======================================
-export const createAdvert = (result) => API.post("/create-advert", result);
+export const createAdvert = (result) =>
+  API.post("/advert/create-advert", result);
 export const getAdverts = (page, search, tag) =>
-  API.get(`/adverts?page=${page}&search=${search}&tag=${tag}`);
+  API.get(`/advert/?page=${page}&search=${search}&tag=${tag}`);
 export const getAdvert = (id) => API.get(`/advert/${id}`);
-export const getAdvertsByUser = (userId) => API.get(`/dashboard/${userId}`);
+export const getAdvertsByUser = (userId) =>
+  API.get(`/advert/dashboard/${userId}`);
 export const updateAdvert = (id, updatedAdvertData) =>
-  API.patch(`/edit-advert/${id}`, updatedAdvertData);
-export const deleteAdvert = (id) => API.delete(`/delete-advert/${id}`);
-export const likeAdvert = (id) => API.patch(`/like/${id}`);
+  API.patch(`/advert/edit-advert/${id}`, updatedAdvertData);
+export const deleteAdvert = (id) => API.delete(`/advert/delete-advert/${id}`);
+export const likeAdvert = (id) => API.patch(`/advert/like/${id}`);
 
 // comment API ======================================
-export const createComment = (comment) => API.post("/create-comment", comment);
-export const getComments = (id) => API.get(`/comments/${id}`);
+export const createComment = (comment) =>
+  API.post("/comment/create-comment", comment);
+export const getComments = (id) => API.get(`/comment/comments/${id}`);
 export const editComment = (id, comment) =>
-  API.patch(`/edit-comment/${id}`, comment);
-export const deleteComment = (id) => API.delete(`/delete-comment/${id}`);
+  API.patch(`/comment/edit-comment/${id}`, comment);
+export const deleteComment = (id) =>
+  API.delete(`/comment/delete-comment/${id}`);
 export const deleteReply = (id, commentId) =>
-  API.patch(`/delete-reply/${id}`, commentId);
+  API.patch(`/comment/delete-reply/${id}`, commentId);

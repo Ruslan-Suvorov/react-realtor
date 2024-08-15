@@ -23,7 +23,7 @@ const DashboardCard = ({
   price,
   createdAt,
 }) => {
-  const dispatch = useContext(GlobalContext);
+  const { dispatch } = useContext(GlobalContext);
   const handleDelete = (id) => {
     if (window.confirm("Are you shure you want to delete ?")) {
       dispatch(deleteAdvert({ id, toast }));

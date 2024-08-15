@@ -219,7 +219,7 @@ const Profile = () => {
                 <span>
                   <b>Adverts:</b>{" "}
                 </span>
-                <p>
+                <p style={{ maxWidth: "300px" }}>
                   {profile?.adverts.length === 0
                     ? "Haven't created any adverts"
                     : profile?.adverts.map((advert, index) => (
