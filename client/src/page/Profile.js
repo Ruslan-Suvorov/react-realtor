@@ -43,7 +43,7 @@ const Profile = () => {
     passwordConfirm: "",
     firstName: user?.result?.firstName,
     lastName: user?.result?.lastName,
-    userImage: profile?.userImage,
+    userImage: user?.result?.userImage,
   };
 
   const [formValue, setFormValue] = useState(initialFormState);
@@ -112,7 +112,14 @@ const Profile = () => {
       {loading ? (
         <Loading />
       ) : (
-        <MDBCardBody style={{ display: "flex", gap: "25px" }}>
+        <MDBCardBody
+          style={{
+            display: "flex",
+            gap: "25px",
+            flexWrap: "wrap",
+            margin: "0 auto",
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -120,9 +127,7 @@ const Profile = () => {
             }}
           >
             <Image
-              src={
-                userImage || profile?.userImage || "/img/defaultUserImage.jpg"
-              }
+              src={userImage || "/img/defaultUserImage.jpg"}
               alt={`${profile?.firstName} ${profile?.lastName}`}
               style={{
                 height: "200px",
@@ -155,7 +160,7 @@ const Profile = () => {
               )}
             </div>
           </div>
-          <div style={{ textAlign: "start" }}>
+          <div style={{ textAlign: "start", minWidth: "310px" }}>
             <div>
               <span>First name:</span>{" "}
               {!isEdit ? (

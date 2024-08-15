@@ -145,9 +145,8 @@ export const updateUser = async (req, res) => {
     const token = jwt.sign({ email: result.email, id: result._id }, secret, {
       expiresIn: "12h",
     });
-    console.log(result);
 
-    await UserModel.findOneAndUpdate({ _id: id }, { $set: { ...userData } });
+    await UserModel.findOneAndUpdate({ _id: id }, { $set: userData });
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(404).json({ message: "Something went wrong" });
