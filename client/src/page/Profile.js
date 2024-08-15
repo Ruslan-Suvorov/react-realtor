@@ -127,7 +127,11 @@ const Profile = () => {
             }}
           >
             <Image
-              src={userImage || "/img/defaultUserImage.jpg"}
+              src={
+                isEdit
+                  ? `${userImage}`
+                  : `${profile?.userImage}` || "/img/defaultUserImage.jpg"
+              }
               alt={`${profile?.firstName} ${profile?.lastName}`}
               style={{
                 height: "200px",
